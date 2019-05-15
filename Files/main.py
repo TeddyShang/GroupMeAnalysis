@@ -20,7 +20,9 @@ def main():
     devToken = Secrets.devToken
     user = User(devToken)
     user.getGroups()
-    print(user.groups)
+    #
+    #chatlog = user.groups[1].getChatLog()
+
 
 
 

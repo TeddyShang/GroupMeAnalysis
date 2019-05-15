@@ -19,7 +19,6 @@ class User:
             page = page + 1
             for jsonGroup in jsonGroups:
                 name = jsonGroup['name']
-                print(name)
                 description= jsonGroup['description']
                 imageUrl= jsonGroup['image_url']
                 created_at= jsonGroup['created_at']
