@@ -33,6 +33,13 @@ def getChatlog(groupId, devToken):
     group.getGroupInformation(devToken)
     return group.getChatLog(devToken)
 
+def getMemberInformation(groupId, devToken):
+    group = Group(groupId = groupId)
+    group.getGroupInformation(devToken)
+    members = group.allMembers
+    return members
+   
+
 if __name__ == "__main__":
     main()
 

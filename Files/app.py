@@ -2,6 +2,7 @@ from flask import Flask, url_for, render_template, request, session
 import main
 import json
 from werkzeug.contrib.cache import SimpleCache
+
 app = Flask(__name__)
 app.secret_key = 'bananas'
 cache = SimpleCache()
@@ -26,13 +27,15 @@ def groups():
             return render_template('groups.html', groups=groups)
         return render_template('index.html')
 
+
 @app.route('/chatlog', methods=['POST'])
 def chatlog():
     devToken = session.get('devToken')
     groupId = request.form['groupId']
     c = cache.get(groupId)
+    m = main.getMemberInformation(groupId, devToken)
     if c is not None:
-        return render_template('chatlog.html', chatlog=c)
+        return render_template('chatlog.html', chatlog=c, memberInfo = m)
     chatlog = main.getChatlog(groupId,devToken)
     cache.set(groupId, chatlog, timeout = 5 * 60)
-    return render_template('chatlog.html', chatlog=chatlog)
+    return render_template('chatlog.html', chatlog=chatlog, memberInfo = m)

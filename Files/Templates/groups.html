@@ -24,7 +24,7 @@
         <td>{{ group.created }}</td>
         <td>{{ group.updated }}</td>
         <td> {{ group.description }} </td>
-        <td> {{ group.members|length}} </td>
+        <td> {{ group.currentMembers|length}} </td>
         <td>
             <form action="/chatlog" method="post">
                 <input type="hidden" name="groupId" value="{{group.id}}" />

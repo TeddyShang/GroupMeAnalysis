@@ -1,16 +1,18 @@
 import Values
 from Message import Message
 import requests, json
+import Member
 
 class Group:
-    def __init__(self, name="", description="", imageUrl="", created_at=0, updated_at=0, groupId=0, membersList=[]):
+    def __init__(self, name="", description="", imageUrl="", created_at=0, updated_at=0, groupId=0, currentMembersList=[], allMembersList = dict()):
         self.name = name
         self.description = description
         self.imageUrl = imageUrl
         self.created = created_at
         self.updated = updated_at
         self.id = groupId
-        self.members = membersList
+        self.currentMembers = currentMembersList
+        self.allMembers = allMembersList
 
     def getGroupInformation(self, devToken):
         request = requests.get(Values.apiGroupsBaseUrl + '/' + self.id,  params={'token':devToken})
@@ -20,7 +22,16 @@ class Group:
         self.imageUrl = text['response']['image_url']
         self.created = text['response']['created_at']
         self.updated = text['response']['messages']['last_message_created_at']
-        self.members = text['response']['members']
+        members = text['response']['members']
+        currentMembers = []
+        for member in members:
+            id = member['user_id']
+            name = member['nickname']
+            image = member['image_url']
+            role = member['roles'][0]
+            m = Member.Member(id, name, image, role)
+            currentMembers.append(m)
+        self.currentMembers = currentMembers
 
     def getChatLog(self,devToken):
         chatlog = []
@@ -50,8 +61,10 @@ class Group:
                 messageId = message['id']
                 senderId = message['sender_id']
                 text = message['text']
-                attachments = messages[0]['attachments']
+                attachments = messages[0]['attachments']            
                 cMessage = Message(timestamp, favorited, messageId, senderId, text, attachments)
                 chatlog.append(cMessage)
+                if senderId not in self.allMembers:
+                    self.allMembers[senderId] = message['name']
             lastEntry = messageId
         return chatlog 

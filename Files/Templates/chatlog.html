@@ -18,7 +18,7 @@
     </thead>
     {% for i in range(0,chatlog|length) %}
     <tr>
-        <td>{{chatlog[i].senderId}}</td>
+        <td>{{memberInfo[chatlog[i].senderId]}}</td>
         <td> {{ chatlog[i].timestamp }} </td>
         <td> {{ chatlog[i].text }} </td>
         <td> {{ chatlog[i].favorited|length}} </td>
