@@ -19,7 +19,7 @@ class Group:
         self.description = text['response']['description']
         self.imageUrl = text['response']['image_url']
         self.created = text['response']['created_at']
-        self.updated = text['response']['updated_at']
+        self.updated = text['response']['messages']['last_message_created_at']
         self.members = text['response']['members']
 
     def getChatLog(self,devToken):
@@ -39,7 +39,7 @@ class Group:
         chatlog.append(firstMessage)
         lastEntry = fmessageId
         while True:
-            request = requests.get(Values.apiGroupsBaseUrl + '/' + self.id + '/messages',  params={'token':Secrets.devToken, 'limit':100, 'before_id': lastEntry})
+            request = requests.get(Values.apiGroupsBaseUrl + '/' + self.id + '/messages',  params={'token':devToken, 'limit':100, 'before_id': lastEntry})
             if request.status_code == 304:
                 break;
             text = json.loads(request.text);

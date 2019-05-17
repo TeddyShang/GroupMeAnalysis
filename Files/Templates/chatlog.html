@@ -30,7 +30,14 @@
 {% block script %}
 <script>
     $(document).ready(function () {
-        $('#chatlog').DataTable();
+        $('#chatlog').DataTable({
+            "createdRow": function (row, data, index) {
+                var d = new Date(data[1] * 1000);
+                var r = d.toLocaleString();
+                $('td', row).eq(1).html(r);
+
+            }
+        });
     });
 </script>
 {% endblock %}

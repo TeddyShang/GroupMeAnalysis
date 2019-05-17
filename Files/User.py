@@ -24,7 +24,7 @@ class User:
                 description= jsonGroup['description']
                 imageUrl= jsonGroup['image_url']
                 created_at= jsonGroup['created_at']
-                updated_at= jsonGroup['updated_at']
+                updated_at= jsonGroup['messages']['last_message_created_at']
                 groupId= jsonGroup['group_id']
                 jsonMembersList= jsonGroup['members']
                 membersList = []

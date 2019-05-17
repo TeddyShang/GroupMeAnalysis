@@ -11,8 +11,8 @@
     <thead>
         <tr>
             <th scope="col">Group Name</th>
-            <th scope="col">Last Created</th>
-            <th scope="col">Last Updated</th>
+            <th scope="col">Created</th>
+            <th scope="col">Last Message</th>
             <th scope="col">Group Description</th>
             <th scope="col">Number of Members</th>
             <th scope="col">Tools</th>
@@ -39,7 +39,17 @@
 {% block script %}
 <script>
     $(document).ready(function () {
-        $('#groups').DataTable();
+        $('#groups').DataTable({
+            "createdRow": function (row, data, index) {
+                var d = new Date(data[1] * 1000);
+                var d2 = new Date(data[2] * 1000)
+                var r = d.toLocaleString();
+                var r2 = d2.toLocaleString();
+                $('td', row).eq(1).html(r);
+                data[2] == 0 ? $('td', row).eq(2).html("No Messages"): $('td', row).eq(2).html(r2);
+                
+            }
+        });
     });
 </script>
 {% endblock %}
