@@ -61,7 +61,7 @@ class Group:
                 messageId = message['id']
                 senderId = message['sender_id']
                 text = message['text']
-                attachments = messages[0]['attachments']            
+                attachments = message['attachments']
                 cMessage = Message(timestamp, favorited, messageId, senderId, text, attachments)
                 chatlog.append(cMessage)
                 if senderId not in self.allMembers:

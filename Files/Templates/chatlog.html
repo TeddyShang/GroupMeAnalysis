@@ -13,14 +13,16 @@
             <th scope="col">Username</th>
             <th scope="col">Time Posted</th>
             <th scope="col">Text</th>
+            <th scope="col">Attachments</th>
             <th scope="col">Favorites</th>
         </tr>
     </thead>
     {% for i in range(0,chatlog|length) %}
     <tr>
-        <td>{{memberInfo[chatlog[i].senderId]}}</td>
+        <td> {{memberInfo[chatlog[i].senderId]}} </td>
         <td> {{ chatlog[i].timestamp }} </td>
         <td> {{ chatlog[i].text }} </td>
+        <td> {% if chatlog[i].attachments|length > 0 %}{{ chatlog[i].attachments[0]['url']|urlize(40, true) }}{% endif %} </td>
         <td> {{ chatlog[i].favorited|length}} </td>
     </tr>
     {% endfor %}
