@@ -11,6 +11,8 @@
     <thead>
         <tr>
             <th scope="col">Group Name</th>
+            <th scope="col">Last Created</th>
+            <th scope="col">Last Updated</th>
             <th scope="col">Group Description</th>
             <th scope="col">Number of Members</th>
             <th scope="col">Tools</th>
@@ -19,6 +21,8 @@
     {% for group in groups %}
     <tr>
         <td> {{ group.name }} </td>
+        <td>{{ group.created }}</td>
+        <td>{{ group.updated }}</td>
         <td> {{ group.description }} </td>
         <td> {{ group.members|length}} </td>
         <td>
