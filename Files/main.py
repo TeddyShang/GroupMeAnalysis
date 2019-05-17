@@ -30,6 +30,10 @@ def getGroups(devToken):
         return None
     return user.groups
 
+def getChatlog(groupId, devToken):
+    group = Group(groupId = groupId)
+    group.getGroupInformation(devToken)
+    return group.getChatLog(devToken)
 
 if __name__ == "__main__":
     main()

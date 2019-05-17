@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+
+{% block content %}
+<h1>Chatlog</h1>
+<table id="chatlog" class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Time Posted</th>
+            <th scope="col">Text</th>
+            <th scope="col">Favorites</th>
+        </tr>
+    </thead>
+    {% for i in range(0,chatlog|length) %}
+    <tr>
+        <td>{{chatlog[i].senderId}}</td>
+        <td> {{ chatlog[i].timestamp }} </td>
+        <td> {{ chatlog[i].text }} </td>
+        <td> {{ chatlog[i].favorited|length}} </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+        $('#chatlog').DataTable();
+    });
+</script>
+{% endblock %}

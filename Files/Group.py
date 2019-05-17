@@ -4,7 +4,7 @@ from Message import Message
 import requests, json
 
 class Group:
-    def __init__(self, name, description, imageUrl, created_at, updated_at, groupId, membersList):
+    def __init__(self, name="", description="", imageUrl="", created_at=0, updated_at=0, groupId=0, membersList=[]):
         self.name = name
         self.description = description
         self.imageUrl = imageUrl
@@ -13,9 +13,19 @@ class Group:
         self.id = groupId
         self.members = membersList
 
-    def getChatLog(self):
+    def getGroupInformation(self, devToken):
+        request = requests.get(Values.apiGroupsBaseUrl + '/' + self.id,  params={'token':devToken})
+        text = json.loads(request.text)
+        self.name = text['response']['name']
+        self.description = text['response']['description']
+        self.imageUrl = text['response']['image_url']
+        self.created = text['response']['created_at']
+        self.updated = text['response']['updated_at']
+        self.members = text['response']['members']
+
+    def getChatLog(self,devToken):
         chatlog = []
-        request = requests.get(Values.apiGroupsBaseUrl + '/' + self.id + '/messages',  params={'token':Secrets.devToken, 'limit':1})
+        request = requests.get(Values.apiGroupsBaseUrl + '/' + self.id + '/messages',  params={'token':devToken, 'limit':1})
         if request.status_code != 200:
             return chatlog;
         text = json.loads(request.text);
