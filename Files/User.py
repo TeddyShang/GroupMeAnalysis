@@ -12,6 +12,8 @@ class User:
         page = 1;
         while True:
             request = requests.get(Values.apiGroupsBaseUrl, params={'token':self.devToken, 'page':page})
+            if request.status_code != 200:
+                return
             text = json.loads(request.text)
             jsonGroups = text['response']
             if len(jsonGroups) == 0:

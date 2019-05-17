@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+
+{% block content %}
+<h1>Your Groups</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Group Name</th>
+            <th scope="col">Group Description</th>
+            <th scope="col">Number of Members</th>
+            <th scope="col">Tools</th>
+        </tr>
+    </thead>
+    {% for group in groups %}
+    <tr>
+        <th> {{ group.name }} </th>
+        <td> {{ group.description }} </td>
+        <td> {{ group.members|length}} </td>
+        <td><form action="/chatlog" method="post">
+            <input  type="hidden"name="groupId" value="{{group.id}}"/>
+            <button type="submit" class="btn btn-primary mb-2">View Chatlog</button>
+            </form></td>
+    </tr>
+    {% endfor %}
+</table>
+    
+
+    {% endblock %}

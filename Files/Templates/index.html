@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+
+{% block content %}
+<h1>Supply your GroupMe developer key</h1>
+<form method="post" action="/">
+    <div class="form-group">
+        <label for="devInput">Developer Key:</label>
+        <input type="text" class="form-control" name="devInput" id="devInput" placeholder="29d5bffe29c249e" />
+        <br />
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </div>
+</form>
+
+{% endblock %}

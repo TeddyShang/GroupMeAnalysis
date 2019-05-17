@@ -16,14 +16,19 @@ import Secrets
 
 
 
-def main():
-    devToken = Secrets.devToken
+def main(devToken):
+    #user = User(devToken)
+    #user.getGroups()
+    #return user.groups
+    #chatlog = user.groups[1].getChatLog()
+    return
+
+def getGroups(devToken):
     user = User(devToken)
     user.getGroups()
-    #
-    #chatlog = user.groups[1].getChatLog()
-
-
+    if len(user.groups) == 0:
+        return None
+    return user.groups
 
 
 if __name__ == "__main__":

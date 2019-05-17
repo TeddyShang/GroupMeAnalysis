@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% block head %}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link href="https://getbootstrap.com/docs/4.1/examples/sticky-footer-navbar/sticky-footer-navbar.css" rel="stylesheet">
+    <title>{% block title %}{% endblock %} - GroupMe Analysis</title>
+    {% endblock %}
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="/">GroupMe Analysis</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Project Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">About Me</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!--All content fits in this container-->
+    <main role="main" class="container">{% block content %}{% endblock %}</main>
+
+
+        <footer class="footer">
+            <div class="container">
+                <span class="text-muted">Ted Shang. tshang3@gatech.edu</span>
+            </div>
+        </footer>
+</body>
+</html>
