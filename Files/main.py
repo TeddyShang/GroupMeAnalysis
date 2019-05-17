@@ -12,8 +12,6 @@ from User import User
 from Group import Group
 from Member import Member
 from Message import Message
-import Secrets
-
 
 
 def main(devToken):
