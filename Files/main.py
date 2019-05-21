@@ -83,7 +83,9 @@ def getStats(chatlog):
         likesRecieved(totals, message)
         likesSelf(totals,message)
         totalMessagesSents(totals,message)
-    return totals
+    gTotalMessages = sum(d[0] for d in totals.values() if d) 
+    gTotalLikes = sum(d[1] for d in totals.values() if d) 
+    return totals, [gTotalMessages, gTotalLikes]
 
 if __name__ == "__main__":
     main()

@@ -40,8 +40,10 @@ def chatlog():
     cache.set(groupId, chatlog, timeout = 5 * 60)
     return render_template('chatlog.html', chatlog=chatlog, memberInfo = m)
 
-##we get the chatlog and then manipulate it to get statistics
-##
+## we get the chatlog and then manipulate it to get statistics
+## simple user: [MessagesSent, Likes Received, Likes Given, Self Likes]
+## simple group aggregate: total messages, average likes, total likes
+## advanced user: average likes, average adjusted, +/- of group average, total likes
 @app.route('/stats', methods=['POST'])
 def stats():
     devToken = session.get('devToken')
@@ -50,10 +52,10 @@ def stats():
     m = main.getMemberInformation(groupId, devToken)
     if c is not None:
         ##calculate stats with cached log
-        stats = main.getStats(c)
-        return render_template('stats.html', stats=stats, memberInfo = m)
+        stats, gTotals = main.getStats(c)
+        return render_template('stats.html', stats=stats, memberInfo = m, gTotals=gTotals)
     ##otherwise get chatlog and get stats with it
     chatlog = main.getChatlog(groupId,devToken)
     cache.set(groupId, chatlog, timeout = 5 * 60)
-    stats = main.getStats(chatlog)
-    return render_template('stats.html', stats=stats, memberInfo = m)
+    stats, gTotals = main.getStats(chatlog)
+    return render_template('stats.html', stats=stats, memberInfo = m, gTotals=gTotals)
