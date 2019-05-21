@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+
+{% block content %}
+<h1>Statistics</h1>
+<br />
+<h2>Simple Stats:</h2>
+<table id="stats" class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Messages Sent</th>
+            <th scope="col">Likes Received</th>
+            <th scope="col">Likes Given</th>
+            <th scope="col">Self Likes</th>
+        </tr>
+    </thead>
+    {% for k,v in stats.items() %}
+    <tr>
+        <td> {{memberInfo[k]}} </td>
+        <td> {{ stats[k][0] }} </td>
+        <td> {{ stats[k][1] }} </td>
+        <td> {{ stats[k][2] }} </td>
+        <td> {{ stats[k][3]}} </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+        $('#stats').DataTable();
+    });
+</script>
+{% endblock %}

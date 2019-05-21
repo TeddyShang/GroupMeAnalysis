@@ -30,6 +30,10 @@
                 <input type="hidden" name="groupId" value="{{group.id}}" />
                 <button type="submit" class="btn btn-primary mb-2">View Chatlog</button>
             </form>
+            <form action="/stats" method="post">
+                <input type="hidden" name="groupId" value="{{group.id}}" />
+                <button type="submit" class="btn btn-info mb-2">View Stats</button>
+            </form>
         </td>
     </tr>
     {% endfor %}

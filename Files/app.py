@@ -39,3 +39,21 @@ def chatlog():
     chatlog = main.getChatlog(groupId,devToken)
     cache.set(groupId, chatlog, timeout = 5 * 60)
     return render_template('chatlog.html', chatlog=chatlog, memberInfo = m)
+
+##we get the chatlog and then manipulate it to get statistics
+##
+@app.route('/stats', methods=['POST'])
+def stats():
+    devToken = session.get('devToken')
+    groupId = request.form['groupId']
+    c = cache.get(groupId)
+    m = main.getMemberInformation(groupId, devToken)
+    if c is not None:
+        ##calculate stats with cached log
+        stats = main.getStats(c)
+        return render_template('stats.html', stats=stats, memberInfo = m)
+    ##otherwise get chatlog and get stats with it
+    chatlog = main.getChatlog(groupId,devToken)
+    cache.set(groupId, chatlog, timeout = 5 * 60)
+    stats = main.getStats(chatlog)
+    return render_template('stats.html', stats=stats, memberInfo = m)

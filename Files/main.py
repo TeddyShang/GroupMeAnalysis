@@ -38,116 +38,53 @@ def getMemberInformation(groupId, devToken):
     group.getGroupInformation(devToken)
     members = group.allMembers
     return members
-   
+ 
+def likesGiven(totals, message):
+    messageLikes = message.favorited
+    for user in messageLikes:
+        if user not in totals:
+            totals[user] = [0, 0, 0, 0]
+        oldInfo = totals.get(user)
+        oldInfo[2] = oldInfo[2] + 1
+        totals[user] = oldInfo
+
+def likesRecieved(totals, message):
+    messageLikes = message.favorited
+    userId = message.senderId
+    oldInfo = totals.get(userId)
+    oldInfo[1] = oldInfo[1] + len(messageLikes)
+    totals[userId] = oldInfo
+
+
+def likesSelf(totals, message):
+    messageLikes =message.favorited
+    userId = message.senderId
+    if userId in messageLikes:
+        oldInfo = totals.get(userId)
+        oldInfo[3] = oldInfo[3] + 1
+        totals[userId] = oldInfo
+
+def totalMessagesSents(totals, message):
+    userId = message.senderId
+    oldInfo = totals.get(userId)
+    oldInfo[0] = oldInfo[0] + 1
+    totals[userId] = oldInfo
+
+##what kind of information do we want?
+#most messages, most likes accepted, average likes, most likes given, self likes
+###format. Key: user_id, Value = [MessagesSent, Likes Received, Likes Given, Self Likes]
+def getStats(chatlog):
+    totals = dict()
+    for message in chatlog:
+        userid = message.senderId
+        if userid not in totals:
+            totals[userid] = [0, 0, 0, 0]
+        likesGiven(totals, message)
+        likesRecieved(totals, message)
+        likesSelf(totals,message)
+        totalMessagesSents(totals,message)
+    return totals
 
 if __name__ == "__main__":
     main()
-
-#legacy code
-#chatlog = open('chatlog.txt', 'wb')
-
-#apiGroupsBaseUrl = 'https://api.groupme.com/v3/groups/'
-###format. Key: user_id, Value = [name, MessagesSent, Likes Received, Likes Given, Self Likes]
-#csvDict = dict();
-
-###Initial call to get last before_id
-#request = requests.get(apiGroupsBaseUrl + groupId + '/messages?token=' + devToken, params={'limit':'100'})
-#text = json.loads(request.text);
-#messages = text['response']['messages']
-#lastEntry = ''
-
-###for debug purposes
-#counter = 0
-
-#def likesGiven(message):
-#    global csvDict
-#    messageLikes = message['favorited_by']
-#    name = message['name']
-#    for user in messageLikes:
-#        if user not in csvDict:
-#            csvDict[user] = ['Temp', 0, 0, 0, 0]
-#        oldInfo = csvDict.get(user)
-#        oldInfo[3] = oldInfo[3] + 1
-#        csvDict[user] = oldInfo
-
-#def likesRecieved(message):
-#    global csvDict
-#    messageLikes = message['favorited_by']
-#    userId = message['user_id']
-#    oldInfo = csvDict.get(userId)
-#    oldInfo[2] = oldInfo[2] + len(messageLikes)
-#    csvDict[userId] = oldInfo
-
-
-#def likesSelf(message):
-#    global csvDict
-#    messageLikes = message['favorited_by']
-#    userId = message['user_id']
-#    if userId in messageLikes:
-#        oldInfo = csvDict.get(userId)
-#        oldInfo[4] = oldInfo[4] + 1
-#        csvDict[userId] = oldInfo
-
-#def writeToLog(message):
-#    global chatlog
-#    wName = message['name']
-#    wText = message['text']
-#    messageLikes = message['favorited_by']
-#    wMessage = wName + ' [' + str(len(messageLikes))+ ']'+':' + wText + '\n'
-#    chatlog.write(wMessage.encode('utf-8'))
-#    return
-
-#def totalMessagesSents(message):
-#    global csvDict
-#    userId = message['user_id']
-#    oldInfo = csvDict.get(userId)
-#    oldInfo[1] = oldInfo[1] + 1
-#    csvDict[userId] = oldInfo
-
-
-#for message in messages:
-#    if(message['text'] != None):
-#        writeToLog(message)
-#        userId = message['user_id']
-#        name = message['name']
-#        if userId not in csvDict:
-#            csvDict[userId] = [name, 0, 0, 0, 0]
-#        nameChange = csvDict.get(userId)
-#        nameChange[0] = name
-#        csvDict[userId] = nameChange
-#        likesGiven(message)
-#        likesRecieved(message)
-#        likesSelf(message)
-#        totalMessagesSents(message)
-#    lastEntry = message['id']
-
-#while(True):
-#    request = requests.get(apiGroupsBaseUrl + groupId + '/messages?token=' + devToken, params={'limit':'100', 'before_id': lastEntry})
-#    try:
-#        text = json.loads(request.text);
-#        messages = text['response']['messages']
-#    except ValueError:
-#        print("End of messages")
-#        break
-#    for message in messages:
-#        if(message['text'] != None):
-#            writeToLog(message)
-#            userId = message['user_id']
-#            name = message['name']
-#            if userId not in csvDict:
-#                csvDict[userId] = [name, 0, 0, 0, 0]
-#            nameChange = csvDict.get(userId)
-#            nameChange[0] = name
-#            likesGiven(message)
-#            likesRecieved(message)
-#            likesSelf(message)
-#            totalMessagesSents(message)
-#        lastEntry = message['id']
-#    time.sleep(.5)
-#    counter= counter + 1
-#    print(counter)
-
-#chatlog.close()
-#for k,v in csvDict.items():
-#    print (k,"=>", v)
 
