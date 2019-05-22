@@ -20,7 +20,7 @@ def groups():
         return render_template('groups.html', groups=c)
     groups = main.getGroups(session.get('devToken'))
     if groups == None:
-        return 'No groups found. Please login again'
+        return render_template('error.html', error='No groups found. Please login again')
     cache.set('userGroups', groups, timeout = 5 * 60)
     return render_template('groups.html', groups=groups)
 
@@ -28,7 +28,7 @@ def groups():
 def groupsPost():
     groups = main.getGroups(request.form['devInput'])
     if groups == None:
-        return 'Not valid key or no groups found'
+         return render_template('error.html', error='Not valid key or no groups found')
     cache.set('userGroups', groups, timeout = 5 * 60)
     session['devToken'] = request.form['devInput']
     return redirect(url_for('groups'))
