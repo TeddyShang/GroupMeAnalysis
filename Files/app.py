@@ -1,4 +1,4 @@
-from flask import Flask, url_for, render_template, request, session
+from flask import Flask, url_for, render_template, request, session, redirect
 import main
 import json
 from werkzeug.contrib.cache import SimpleCache
@@ -13,19 +13,25 @@ def index():
         return render_template('index.html')
 
 
-@app.route('/groups', methods =['GET', 'POST'])
+@app.route('/groups', methods =['GET'])
 def groups():
-        c = cache.get('userGroups')
-        if c is not None:
-            return render_template('groups.html', groups=c)
-        if request.method == 'POST':
-            groups = main.getGroups(request.form['devInput'])
-            if groups == None:
-                return 'Not valid key or no groups found'
-            cache.set('userGroups', groups, timeout = 5 * 60)
-            session['devToken'] = request.form['devInput']
-            return render_template('groups.html', groups=groups)
-        return render_template('index.html')
+    c = cache.get('userGroups')
+    if c is not None:
+        return render_template('groups.html', groups=c)
+    groups = main.getGroups(session.get('devToken'))
+    if groups == None:
+        return 'No groups found. Please login again'
+    cache.set('userGroups', groups, timeout = 5 * 60)
+    return render_template('groups.html', groups=groups)
+
+@app.route('/groupsPost', methods =['POST'])
+def groupsPost():
+    groups = main.getGroups(request.form['devInput'])
+    if groups == None:
+        return 'Not valid key or no groups found'
+    cache.set('userGroups', groups, timeout = 5 * 60)
+    session['devToken'] = request.form['devInput']
+    return redirect(url_for('groups'))
 
 
 @app.route('/chatlog', methods=['POST'])
