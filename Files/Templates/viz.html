@@ -1,0 +1,178 @@
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block headStyle %}
+<style>
+    rect {
+        opacity: 0.8;
+    }
+</style>{% endblock %}
+
+
+{% block content %}
+<h1>Visualizations:</h1>
+<br />
+
+<h2>Likes Received Share</h2>
+<div id="lr"></div>
+
+<h2>Messages Sent Share</h2>
+<div id="ms"></div>
+
+
+<h2>Likes Given Share</h2>
+<div id="lg"></div>
+{% endblock %}
+
+{% block script %}
+<script>
+    //lg
+    var data = {
+        "name": "Likes Given",
+        "children": {{ lg|tojson}}
+    };
+    var treemapLayout = d3.treemap()
+        .size([1100, 700])
+        .paddingTop(30)
+        .paddingInner(2);
+    var rootNode = d3.hierarchy(data)
+
+    rootNode.sum(function (d) {
+        return d.value;
+    });
+
+    treemapLayout(rootNode);
+
+    var chart = d3.select("#lg")
+        .append("svg")
+        .attr("width", 1200)
+        .attr("height", 750)
+        .append("g")
+
+    var nodes = chart
+        .selectAll('g')
+        .data(rootNode.descendants())
+        .enter()
+        .append('g')
+        .attr('transform', function (d) { return 'translate(' + [d.x0, d.y0] + ')' })
+
+    var colorScale = d3.scaleSequential()
+        .interpolator(d3.interpolateYlGnBu)
+        .domain([0, rootNode.value/2]);
+
+    nodes
+        .append('rect')
+        .style("fill", function(d) { return colorScale(d.value)})
+        .attr('width', function (d) { return d.x1 - d.x0; })
+        .attr('height', function (d) { return d.y1 - d.y0; })
+
+    nodes
+        .append('text')
+        .attr('dx', 4)
+        .attr('dy', 14)
+        .text(function (d) {
+            return d.data.name + ' ' + d.value;
+        }).attr("font-size", "10px")
+
+    //ms
+    var data = {
+        "name": "Messages Sent",
+        "children": {{ ms| tojson}}
+    };
+
+    var treemapLayout = d3.treemap()
+        .size([1100, 700])
+        .paddingTop(30)
+        .paddingInner(2);
+
+    var rootNode = d3.hierarchy(data)
+
+    rootNode.sum(function (d) {
+        return d.value;
+    });
+
+    treemapLayout(rootNode);
+
+    var colorScale = d3.scaleSequential()
+        .interpolator(d3.interpolateYlOrBr)
+        .domain([0, rootNode.value/2]);
+
+    var chart = d3.select("#ms")
+        .append("svg")
+        .attr("width", 1200)
+        .attr("height", 750)
+        .append("g")
+
+    var nodes = chart
+        .selectAll('g')
+        .data(rootNode.descendants())
+        .enter()
+        .append('g')
+        .attr('transform', function (d) { return 'translate(' + [d.x0, d.y0] + ')' })
+
+    nodes
+        .append('rect')
+        .style("fill", function (d) { return colorScale(d.value) })
+        .attr('width', function (d) { return d.x1 - d.x0; })
+        .attr('height', function (d) { return d.y1 - d.y0; })
+
+    nodes
+        .append('text')
+        .attr('dx', 4)
+        .attr('dy', 14)
+        .text(function (d) {
+            return d.data.name + ' ' + d.value;
+        }).attr("font-size", "10px")
+    //lr
+    var data = {
+        "name": "Likes Received",
+        "children": {{ lr| tojson}}
+    };
+
+    var treemapLayout = d3.treemap()
+        .size([1100, 700])
+        .paddingTop(30)
+        .paddingInner(2);
+
+    var rootNode = d3.hierarchy(data)
+
+    rootNode.sum(function (d) {
+        return d.value;
+    });
+
+    treemapLayout(rootNode);
+
+    var colorScale = d3.scaleSequential()
+        .interpolator(d3.interpolateYlGnBu)
+        .domain([0, rootNode.value/2]);
+
+    var chart = d3.select("#lr")
+        .append("svg")
+        .attr("width", 1200)
+        .attr("height", 750)
+        .append("g")
+
+    var nodes = chart
+        .selectAll('g')
+        .data(rootNode.descendants())
+        .enter()
+        .append('g')
+        .attr('transform', function (d) { return 'translate(' + [d.x0, d.y0] + ')' })
+
+    nodes
+        .append('rect')
+        .style("fill", function (d) { return colorScale(d.value) })
+        .attr('width', function (d) { return d.x1 - d.x0; })
+        .attr('height', function (d) { return d.y1 - d.y0; })
+
+    nodes
+        .append('text')
+        .attr('dx', 4)
+        .attr('dy', 14)
+        .text(function (d) {
+            return d.data.name + ' ' + d.value;
+        }).attr("font-size", "10px")
+</script>
+{% endblock %}

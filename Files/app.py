@@ -65,3 +65,27 @@ def stats():
     cache.set(groupId, chatlog, timeout = 5 * 60)
     stats, gTotals = main.getStats(chatlog)
     return render_template('stats.html', stats=stats, memberInfo = m, gTotals=gTotals)
+
+
+#we pass the same information from /stats
+@app.route('/viz', methods=['POST'])
+def viz():
+    devToken = session.get('devToken')
+    groupId = request.form['groupId']
+    c = cache.get(groupId)
+    m = main.getMemberInformation(groupId, devToken)
+    if c is not None:
+        ##calculate stats with cached log
+        stats, gTotals = main.getStats(c)
+        ##pass stats and memberInfo for processing
+        ms,lr,lg,sl = main.getShare(stats, m)
+        return render_template('viz.html', stats=stats, memberInfo = m, gTotals=gTotals, chatlog = c, ms = ms,
+                               lg=lg, lr = lr, sl = sl)
+    ##otherwise get chatlog and get stats with it
+    chatlog = main.getChatlog(groupId,devToken)
+    cache.set(groupId, chatlog, timeout = 5 * 60)
+    stats, gTotals = main.getStats(chatlog)
+    ##pass stats and memberInfo for processing
+    ms,lr,lg,sl = main.getShare(stats, m)
+    return render_template('viz.html', stats=stats, memberInfo = m, gTotals=gTotals, chatlog = c, ms = ms,
+                               lg=lg, lr = lr, sl = sl)

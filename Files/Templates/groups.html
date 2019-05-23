@@ -34,6 +34,10 @@
                 <input type="hidden" name="groupId" value="{{group.id}}" />
                 <button type="submit" class="btn btn-info mb-2">View Stats</button>
             </form>
+            <form action="/viz" method="post">
+                <input type="hidden" name="groupId" value="{{group.id}}" />
+                <button type="submit" class="btn btn-success mb-2">View Visualizations</button>
+            </form>
         </td>
     </tr>
     {% endfor %}

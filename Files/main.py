@@ -87,6 +87,49 @@ def getStats(chatlog):
     gTotalLikes = sum(d[1] for d in totals.values() if d) 
     return totals, [gTotalMessages, gTotalLikes]
 
+def getShare(stats, mInfo):
+    likesGiven = []
+    likesRecieved = []
+    messagesSent = []
+    selfLikes = []
+    mstotal = 0
+    lrtotal = 0
+    lgtotal = 0
+    sltotal = 0
+    for k,v in stats.items():
+        mstotal += v[0]
+        lrtotal += v[1]
+        lgtotal += v[2]
+        sltotal += v[3]
+
+    for k,v in stats.items():
+        ms = dict()
+        ms["name"] = mInfo.get(k)
+        ms["value"] = v[0]
+        if v[0] > 0 and v[0] > mstotal *.01 and mInfo.get(k) is not None:
+            messagesSent.append(ms)
+
+        lr = dict()
+        lr["name"] = mInfo.get(k)
+        lr["value"] = v[1]
+        if v[1] > 0 and v[1] > lrtotal *.01 and mInfo.get(k) is not None:
+            likesRecieved.append(lr)
+
+        lg = dict()
+        lg["name"] = mInfo.get(k)
+        lg["value"] = v[2]
+        if v[2] > 0 and v[2] > lgtotal *.01 and mInfo.get(k) is not None:
+            likesGiven.append(lg)
+
+        sl = dict()
+        sl["name"] = mInfo.get(k)
+        sl["value"] = v[3]
+        if v[3] > 0 and v[3] > sltotal *.01 and mInfo.get(k) is not None:
+            selfLikes.append(sl)
+    return messagesSent,likesRecieved,likesGiven,selfLikes
+
+
+
 if __name__ == "__main__":
     main()
 
