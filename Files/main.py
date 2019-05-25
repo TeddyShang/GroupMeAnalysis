@@ -131,7 +131,6 @@ def getShare(stats, mInfo):
 
 
 def getTimeline(chatlog):
-    print (len(chatlog))
     allTimeList = []
     allTime = dict()
     timeOfDayList = []
@@ -141,11 +140,25 @@ def getTimeline(chatlog):
         strTime = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
         date = strTime.split(' ')[0]
         time = strTime.split(' ')[1][:-3]
+        [hours,minutes] = time.split(':')
         if date not in allTime:
             allTime[date] = [1, 0]
         else:
              allTime[date][0] = allTime[date][0] + 1
              allTime[date][1] = allTime[date][1] + len(message.favorited)
+
+
+        #round to nearest half hour
+        if int(minutes) < 15:
+            minutes = 0
+        elif int(minutes) < 46:
+            minutes = 30
+        else:
+            minutes = 0
+            hours = (int(hours) + 1) % 25
+        time = str(hours) + ':' + str(minutes)
+
+
         if time not in timeOfDay:
             timeOfDay[time] = [1, 0]
         else:
