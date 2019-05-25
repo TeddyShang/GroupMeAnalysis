@@ -12,6 +12,7 @@ from User import User
 from Group import Group
 from Member import Member
 from Message import Message
+from datetime import datetime
 
 
 def main(devToken):
@@ -127,6 +128,39 @@ def getShare(stats, mInfo):
         if v[3] > 0 and v[3] > sltotal *.01 and mInfo.get(k) is not None:
             selfLikes.append(sl)
     return messagesSent,likesRecieved,likesGiven,selfLikes
+
+
+def getTimeline(chatlog):
+    print (len(chatlog))
+    allTimeList = []
+    allTime = dict()
+    timeOfDayList = []
+    timeOfDay = dict()
+    for message in chatlog:
+        timestamp = int(message.timestamp)
+        strTime = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+        date = strTime.split(' ')[0]
+        time = strTime.split(' ')[1][:-3]
+        if date not in allTime:
+            allTime[date] = [1, 0]
+        else:
+             allTime[date][0] = allTime[date][0] + 1
+             allTime[date][1] = allTime[date][1] + len(message.favorited)
+        if time not in timeOfDay:
+            timeOfDay[time] = [1, 0]
+        else:
+             timeOfDay[time][0] = timeOfDay[time][0] + 1
+             timeOfDay[time][1] = timeOfDay[time][1] + len(message.favorited)
+       
+    for k,v in allTime.items():
+        allTimeList.append({'date':k,'messages':v[0], 'likes': v[1]})
+
+    for k,v in timeOfDay.items():
+        timeOfDayList.append({'time':k,'messages':v[0], 'likes': v[1]})
+
+    return allTimeList, timeOfDayList
+
+
 
 
 

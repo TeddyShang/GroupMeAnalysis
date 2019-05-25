@@ -77,15 +77,22 @@ def viz():
     if c is not None:
         ##calculate stats with cached log
         stats, gTotals = main.getStats(c)
-        ##pass stats and memberInfo for processing
+        ##pass stats and memberInfo for share processing
         ms,lr,lg,sl = main.getShare(stats, m)
+        ##pass chatlog to get timeline
+        allTime, timeOfDay = main.getTimeline(c)
         return render_template('viz.html', stats=stats, memberInfo = m, gTotals=gTotals, chatlog = c, ms = ms,
-                               lg=lg, lr = lr, sl = sl)
+                               lg=lg, lr = lr, sl = sl, allTime = allTime, timeOfDay = timeOfDay)
     ##otherwise get chatlog and get stats with it
+    
     chatlog = main.getChatlog(groupId,devToken)
     cache.set(groupId, chatlog, timeout = 5 * 60)
     stats, gTotals = main.getStats(chatlog)
-    ##pass stats and memberInfo for processing
+
+    main.getTimeline(chatlog)
+    ##pass stats and memberInfo for share processing
     ms,lr,lg,sl = main.getShare(stats, m)
+    ##pass chatlog to get timeline
+    allTime, timeOfDay = main.getTimeline(chatlog)
     return render_template('viz.html', stats=stats, memberInfo = m, gTotals=gTotals, chatlog = c, ms = ms,
-                               lg=lg, lr = lr, sl = sl)
+                               lg=lg, lr = lr, sl = sl, allTime = allTime, timeOfDay = timeOfDay)
