@@ -7,7 +7,7 @@ This project seeks to utilize the [GroupMe API](https://dev.groupme.com/docs/v3)
 ### Prerequisites
 1. A GroupMe account
 2. [The latest version of Python](https://www.python.org/downloads/)
-3. Flask must be installed
+3. Download all dependencies (pip install -r requirements.txt)
 
 ### Installlation and Running
 1. Clone or download this repository
