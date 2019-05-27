@@ -13,6 +13,14 @@
     {% endblock %}
     {% block headStyle %}{% endblock %}
 </head>
+{% set navigation_bar = [
+    ('/', 'home', 'Home'),
+    ('/info', 'info', 'Project Information'),
+    ('/about', 'about', 'About Me')
+] -%}
+
+{% set active_page = active_page|default('home') -%}
+
 <body>
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -22,15 +30,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home</a>
+                    {% for href, id, caption in navigation_bar %}
+
+                    <li {% if id == active_page %} class="nav-item active" {% endif
+                        %}{% if id != active_page %} class="nav-item" {% endif
+                        %}>
+                        <a class="nav-link" href="{{ href }}">{{ caption }}</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Project Information</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">About Me</a>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
         </nav>
@@ -40,11 +47,11 @@
     <main role="main" class="container">{% block content %}{% endblock %}</main>
 
 
-        <footer class="footer">
-            <div class="container">
-                <span class="text-muted">Ted Shang. tshang3@gatech.edu</span>
-            </div>
-        </footer>
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">Ted Shang. tshang3@gatech.edu</span>
+        </div>
+    </footer>
 </body>
 
 {% block script %} {% endblock %}

@@ -96,3 +96,11 @@ def viz():
     allTime, timeOfDay = main.getTimeline(chatlog)
     return render_template('viz.html', stats=stats, memberInfo = m, gTotals=gTotals, chatlog = c, ms = ms,
                                lg=lg, lr = lr, sl = sl, allTime = allTime, timeOfDay = timeOfDay)
+
+@app.route('/info', methods=['GET'])
+def info():
+    return render_template('info.html')
+
+@app.route('/about', methods=['GET'])
+def about():
+    return render_template('about.html')

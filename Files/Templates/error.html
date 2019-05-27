@@ -1,11 +1,15 @@
 {% extends "layout.html" %}
-{% block title %}Index{% endblock %}
+{% block title %}Error{% endblock %}
+{% set active_page = "info" %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 
 
 {% block content %}
-<h1>{{error}}</h1>
-
+<h1>An Error Occurred:</h1>
+<h2>{{error}}</h2>
+<form action="/" method="GET">
+    <button type="submit" class="btn btn-primary mb-2">Return Home</button>
+</form>
 {% endblock %}

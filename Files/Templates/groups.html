@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Index{% endblock %}
+{% block title %}Groups{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
@@ -7,6 +7,7 @@
 
 {% block content %}
 <h1>Your Groups</h1>
+<p>Note, some chats might be very large so expect longer loading times when exploring the tools of that chat</p>
 <table id="groups" class="table table-striped">
     <thead>
         <tr>
@@ -21,8 +22,8 @@
     {% for group in groups %}
     <tr>
         <td> {{ group.name }} </td>
-        <td>{{ group.created }}</td>
-        <td>{{ group.updated }}</td>
+        <td> {{ group.created }} </td>
+        <td> {{ group.updated }} </td>
         <td> {{ group.description }} </td>
         <td> {{ group.currentMembers|length}} </td>
         <td>
