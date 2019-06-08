@@ -10,8 +10,12 @@ cache = SimpleCache()
 @app.route('/', methods=['GET'])
 def index():
     if request.method =='GET':
-        return render_template('index.html')
-
+        token = request.args.get('access_token')
+        if token is None:
+            return render_template('index.html')
+        else:
+            session['devToken'] = token
+            return redirect(url_for('groups'))
 
 @app.route('/groups', methods =['GET'])
 def groups():
@@ -23,15 +27,6 @@ def groups():
         return render_template('error.html', error='No groups found. Please login again')
     cache.set('userGroups', groups, timeout = 5 * 60)
     return render_template('groups.html', groups=groups)
-
-@app.route('/groupsPost', methods =['POST'])
-def groupsPost():
-    groups = main.getGroups(request.form['devInput'])
-    if groups == None:
-         return render_template('error.html', error='Not valid key or no groups found')
-    cache.set('userGroups', groups, timeout = 5 * 60)
-    session['devToken'] = request.form['devInput']
-    return redirect(url_for('groups'))
 
 
 @app.route('/chatlog', methods=['POST'])

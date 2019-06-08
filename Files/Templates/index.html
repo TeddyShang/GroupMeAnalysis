@@ -7,13 +7,7 @@
 
 {% block content %}
 <h1>Supply your GroupMe developer key</h1>
-<form method="post" action="/groupsPost">
-    <div class="form-group">
-        <label for="devInput">Developer Key:</label>
-        <input type="text" class="form-control" name="devInput" id="devInput" placeholder="29d5bffe29c249e" />
-        <br />
-        <button type="submit" class="btn btn-primary mb-2">Submit</button>
-    </div>
-</form>
-
+<div>
+    <a class="btn btn-primary mb-2" href="https://oauth.groupme.com/oauth/authorize?client_id=VPqKQ43jyjsch2gvJwqP1ecntRHNba16TOneW0RLIOLe9dHh">Login here</a>
+</div>
 {% endblock %}
