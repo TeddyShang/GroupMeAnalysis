@@ -13,14 +13,13 @@ This project seeks to utilize the [GroupMe API](https://dev.groupme.com/docs/v3)
 1. Clone or download this repository
 2. Navigate to the Files folder and open your command window
 3. Run flask on app.py [help](http://flask.pocoo.org/docs/1.0/quickstart/)
-4. Enter your GroupMe developer token. To get this token, go [here](https://dev.groupme.com/) and login. Then obtain your token in the top right.
+4. Click the link to login to GroupMe
 5. Explore your chats!
 
 ## Future Features
-1. OAuth 2.0 authentication with [GroupMe applications](https://dev.groupme.com/applications)
-2. Deployment to Azure or AWS
-3. More visualizations (heatmaps, top messages)
-4. Additonal filtering features for chats including multi-feature filtering
+1. Deployment to Azure or AWS
+2. More visualizations (heatmaps, top messages)
+3. Additonal filtering features for chats including multi-feature filtering
 
 ## Built With
 
