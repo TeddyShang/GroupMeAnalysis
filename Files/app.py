@@ -19,13 +19,14 @@ def index():
 
 @app.route('/groups', methods =['GET'])
 def groups():
-    c = cache.get('userGroups')
-    if c is not None and session.get('devToken') is not None:
+    token = session.get('devToken')
+    c = cache.get(token)
+    if c is not None and token is not None:
         return render_template('groups.html', groups=c)
     groups = main.getGroups(session.get('devToken'))
     if groups == None:
         return render_template('error.html', error='No groups found. Please login again')
-    cache.set('userGroups', groups, timeout = 5 * 60)
+    cache.set(token, groups, timeout = 5 * 60)
     return render_template('groups.html', groups=groups)
 
 
