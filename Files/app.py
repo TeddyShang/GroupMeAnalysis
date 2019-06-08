@@ -20,7 +20,7 @@ def index():
 @app.route('/groups', methods =['GET'])
 def groups():
     c = cache.get('userGroups')
-    if c is not None:
+    if c is not None and session.get('devToken') is not None:
         return render_template('groups.html', groups=c)
     groups = main.getGroups(session.get('devToken'))
     if groups == None:
@@ -32,6 +32,8 @@ def groups():
 @app.route('/chatlog', methods=['POST'])
 def chatlog():
     devToken = session.get('devToken')
+    if devToken is None:
+        return render_template('error.html', error='Error: Please login again')
     groupId = request.form['groupId']
     c = cache.get(groupId)
     m = main.getMemberInformation(groupId, devToken)
@@ -48,6 +50,8 @@ def chatlog():
 @app.route('/stats', methods=['POST'])
 def stats():
     devToken = session.get('devToken')
+    if devToken is None:
+        return render_template('error.html', error='Error: Please login again')
     groupId = request.form['groupId']
     c = cache.get(groupId)
     m = main.getMemberInformation(groupId, devToken)
@@ -66,6 +70,8 @@ def stats():
 @app.route('/viz', methods=['POST'])
 def viz():
     devToken = session.get('devToken')
+    if devToken is None:
+        return render_template('error.html', error='Error: Please login again')
     groupId = request.form['groupId']
     c = cache.get(groupId)
     m = main.getMemberInformation(groupId, devToken)
